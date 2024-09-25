@@ -136,6 +136,15 @@ az storage account keys renew \
 2. To learn stuff (see point 1).
 3. Because I hope you might find this fun, too, and reach out with pull requests or comments, feauture requests, etc.
 
+## Remediation
+
+> This is not an endorsement or sponsored, I just now learned about this in a discussion on Linkedin with the co-founder of [StepSecurity](https://www.stepsecurity.io/) and this deserves some credit 💯.
+
+When the job run starts, one can actually detect which Storage Account will be used for caching. Then, all egress traffic to other Storage Accounts can be blocked.
+There are different tools out there to harden GitHub-hosted and self-hosted runners, several of these might already include this function.
+
+Here is an example of a malicious workflow run that was stopped: [https://github.com/step-security/github-actions-goat/actions/runs/11038173335/workflow](https://github.com/step-security/github-actions-goat/actions/runs/11038173335/workflow), make sure to check the build logs!
+
 ## Currently next planned steps
 
 1. If timeout hits on the side of GitHub, the agent should send that information to the storage account, and the client should pick up on it.
